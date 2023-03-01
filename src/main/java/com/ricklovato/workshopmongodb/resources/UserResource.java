@@ -1,6 +1,8 @@
 package com.ricklovato.workshopmongodb.resources;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ricklovato.workshopmongodb.domain.User;
+import com.ricklovato.workshopmongodb.dto.UserDTO;
 import com.ricklovato.workshopmongodb.services.UserService;
 
 @RestController
@@ -24,9 +27,10 @@ public class UserResource {
 	private UserService service;
 	
 	@GetMapping
- 	public ResponseEntity<List<User>> findAll() {
+ 	public ResponseEntity<List<UserDTO>> findAll() {
 		logger.info("Método findAll() foi chamado");
 		List<User> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<UserDTO> listDto = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 }
