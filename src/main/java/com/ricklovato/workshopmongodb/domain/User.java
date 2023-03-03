@@ -1,17 +1,24 @@
 package com.ricklovato.workshopmongodb.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+
 	@Id
 	private String id;
+	
+	
+	
 	private String name;
+	
 	private String email;
 	
 	public User() {
@@ -50,10 +57,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -65,11 +69,12 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(id, other.id);
 	}
+
+	
+
+		
+
+	
 }

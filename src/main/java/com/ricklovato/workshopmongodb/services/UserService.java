@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ricklovato.workshopmongodb.domain.User;
+import com.ricklovato.workshopmongodb.dto.UserDTO;
 import com.ricklovato.workshopmongodb.repository.UserRepository;
 import com.ricklovato.workshopmongodb.services.exception.ObjectNotFoundException;
 
@@ -28,6 +29,14 @@ public class UserService {
 		Optional<User> obj = repo.findById(id);
 		// Retorna o usuário encontrado ou lança uma exceção ObjectNotFoundException se o usuário não foi encontrado
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+	
+	public User insert(User obj) {
+		return repo.insert(obj);
+	}
+	
+	public User fromDTO(UserDTO objDto) {
+		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
 	/*
 	 * o Optional<User> é usado para representar o resultado da busca de um usuário pelo seu id 
