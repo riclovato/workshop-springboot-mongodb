@@ -1,5 +1,6 @@
 package com.ricklovato.workshopmongodb.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -41,5 +42,16 @@ public class PostResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@RequestMapping(value="/fullsearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> findSearch(
+			@RequestParam(value="text", defaultValue ="") String text,
+			@RequestParam(value="minDate", defaultValue ="") String minDate,
+			@RequestParam(value="maxDate", defaultValue ="") String maxDate) {
+		text = URL.decodeParam(text);
+		Date min = URL.converDate(minDate, new Date(0));
+		Date max = URL.converDate(maxDate, new Date());
+		List<Post>list = service.fullSearch(text, min, max);
+		return ResponseEntity.ok().body(list);
+	}
 	
 }
