@@ -31,6 +31,13 @@ public class UserService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
 	
+	public User findByName(String name) {
+		// Busca o usuário no banco de dados pelo id
+		Optional<User> obj = repo.findByName(name);
+		// Retorna o usuário encontrado ou lança uma exceção ObjectNotFoundException se o usuário não foi encontrado
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+	
 	public User insert(User obj) {
 		return repo.insert(obj);
 	}
